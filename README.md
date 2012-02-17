@@ -1,4 +1,3 @@
-
 <img src="https://github.com/flatiron/director/raw/master/img/director.png" />
 
 # Synopsis
@@ -34,30 +33,37 @@ Client-side routing (aka hash-routing) allows you to specify some information ab
 Here is a simple example:
 
 ```html
-  <!html>
-  <html>
-    <head>
-      <script src="/director.js"></script>
-      <script>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>A Gentle Introduction</title>
+    <script src="https://raw.github.com/flatiron/director/master/build/director-1.0.7.min.js"></script>
+    <script>
 
-        var author = function () { /* ... */ },
-            books = function () { /* ... */ },
-            viewBook = function(bookId) { /* bookId is populated. */ };
+      var author = function () { console.log("author"); },
+          books = function () { console.log("books"); },
+          viewBook = function(bookId) { console.log("viewBook: bookId is populated: " + bookId); };
+      
+      var routes = {
+        '/author': author,
+        '/books': [books, function() { console.log("An inline route handler."); }],
+        '/books/view/:bookId': viewBook
+      };
+      
+      var router = Router(routes);
+      router.init();
 
-        var routes = {
-          '/author': author,
-          '/books': [books, function() { /* An inline route handler. */ }],
-          '/books/view/:bookId': viewBook
-        };
-
-        var router = Router(routes);
-        router.init();
-
-      </script>
-    </head>
-    <body>
-    </body>
-  </html>
+    </script>
+  </head>
+  <body>
+    <ul>
+      <li><a href="#/author">#/author</a></li>
+      <li><a href="#/books">#/books</a></li>
+      <li><a href="#/books/view/1">#/books/view/1</a></li>
+    </ul>
+  </body>
+</html>
 ```
 
 Director works great with your favorite DOM library, such as jQuery.
